@@ -1,0 +1,6 @@
+apiVersion: v2
+name: Validate Secrets
+description: A Helm chart validating secrets if an user has access to it.
+type: application
+
+version: 0.1.0

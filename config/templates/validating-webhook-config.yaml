@@ -1,0 +1,24 @@
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingWebhookConfiguration
+metadata:
+  name: validate-secrets
+  labels:
+    k8s-app: validate-secrets
+webhooks:
+- name: validating.suraj.io
+  clientConfig:
+    caBundle: "{{ .Values.webhook.servingCert | b64enc }}"
+    service:
+      name: validate-secrets
+      namespace: {{ .Release.Namespace }}
+      path: /validate
+  rules:
+  - operations:
+    - CREATE
+    - UPDATE
+    apiGroups: [""]
+    apiVersions: ["v1"]
+    resources: ["pods"]
+  sideEffects: None
+  failurePolicy: Ignore
+  admissionReviewVersions: ["v1"]

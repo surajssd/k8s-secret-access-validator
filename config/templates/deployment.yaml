@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: validate-secrets
+  namespace: {{ .Release.Namespace }}
+  labels:
+    k8s-app: validate-secrets
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      k8s-app: validate-secrets
+  template:
+    metadata:
+      labels:
+        k8s-app: validate-secrets
+    spec:
+      tolerations:
+      - key: node-role.kubernetes.io/master
+        effect: NoSchedule
+      nodeSelector:
+        node-role.kubernetes.io/master: ""
+      containers:
+      - name: validate-secrets
+        securityContext:
+          readOnlyRootFilesystem: true
+          runAsNonRoot: true
+          runAsUser: 65534
+          runAsGroup: 65534
+        image: {{ .Values.image }}
+        imagePullPolicy: {{ .Values.imagePullPolicy }}
+        # TODO: Add a readiness check here.
+        resources:
+          limits:
+            cpu: 300m
+            memory: 50Mi
+          requests:
+            cpu: 300m
+            memory: 50Mi
+        volumeMounts:
+          - name: validate-secrets
+            mountPath: /etc/webhook
+            readOnly: true
+      serviceAccountName: validate-secrets
+      volumes:
+      - name: validate-secrets
+        secret:
+          secretName: validate-secrets

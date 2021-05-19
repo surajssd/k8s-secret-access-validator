@@ -1,0 +1,10 @@
+webhook:
+  servingKey: |
+    -----BEGIN RSA PRIVATE KEY-----
+    -----END RSA PRIVATE KEY-----
+  servingCert: |
+    -----BEGIN CERTIFICATE-----
+    -----END CERTIFICATE-----
+
+image: quay.io/surajd/k8s-secret-access-validator
+imagePullPolicy: Always

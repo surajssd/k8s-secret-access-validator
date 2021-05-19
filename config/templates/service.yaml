@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: validate-secrets
+  namespace: {{ .Release.Namespace }}
+  labels:
+    k8s-app: validate-secrets
+spec:
+  ports:
+    - port: 443
+      targetPort: 8443
+      name: validate-secrets
+  selector:
+    k8s-app: validate-secrets
