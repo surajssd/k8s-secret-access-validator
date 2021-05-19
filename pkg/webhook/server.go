@@ -132,12 +132,36 @@ func getSecret(req *v1.AdmissionRequest) ([]string, error) {
 	return nil, fmt.Errorf("unsupported kind received: %#v", req.Kind)
 }
 
+func isControllerUser(u string) bool {
+	users := map[string]interface{}{
+		"system:serviceaccount:kube-system:cronjob-controller":     nil,
+		"system:serviceaccount:kube-system:daemon-set-controller":  nil,
+		"system:serviceaccount:kube-system:deployment-controller":  nil,
+		"system:serviceaccount:kube-system:job-controller":         nil,
+		"system:serviceaccount:kube-system:replicaset-controller":  nil,
+		"system:serviceaccount:kube-system:replication-controller": nil,
+		"system:serviceaccount:kube-system:statefulset-controller": nil,
+	}
+
+	if _, ok := users[u]; ok {
+		return true
+	}
+
+	return false
+}
+
 func validateSecretAccess(r v1.AdmissionReview) (*v1.AdmissionResponse, error) {
 	req := r.Request
 	response := &v1.AdmissionResponse{
 		UID: req.UID,
 	}
 	user := req.UserInfo
+
+	// If the user is of controller type like replicaset, job, etc then ignore.
+	if isControllerUser(user.Username) {
+		response.Allowed = true
+		return response, nil
+	}
 
 	// Talk to the APIServer
 	config, err := rest.InClusterConfig()
