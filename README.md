@@ -99,3 +99,4 @@ kubectl delete ns validate-secrets
 - Add support for checking the group permissions.
 - Add unit tests.
 - Add support for Deployment, StatefulSets, Job, CronJob, Daemonset, etc. or any in built controller type that has pod spec in it.
+- Create a library that anyone can import it in their webhook server.
