@@ -89,7 +89,7 @@ helm upgrade validate-secrets \
 
 ```bash
 helm uninstall validate-secrets -n validate-secrets
-helm template . | kubectl delete -f .
+helm template validate-secrets . | kubectl delete -f -
 kubectl delete ns validate-secrets
 ```
 
