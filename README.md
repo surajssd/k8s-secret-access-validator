@@ -30,11 +30,11 @@ We will try to recreate the scenario explained in [this blog post](https://suraj
 Once you install the above webhook server, create a test user that has access to pod, but not to secrets.
 
 ```bash
-kubectl create role pod-all --verb=* --resource=pods --resource=pods/exec
-kubectl create rolebinding pod-all:nastyuser --role=pod-all --user=nastyuser
-kubectl create secret generic supersecret --from-literal data=supersecretvaluesinhere
-alias kubectl='kubectl --as=nastyuser'
-kubectl auth can-i --list
+kubectl -n default create role pod-all --verb=* --resource=pods --resource=pods/exec
+kubectl -n default create rolebinding pod-all:nastyuser --role=pod-all --user=nastyuser
+kubectl -n default create secret generic supersecret --from-literal data=supersecretvaluesinhere
+alias kubectl='kubectl -n default --as=nastyuser'
+kubectl -n default auth can-i --list
 ```
 
 Save this pod config in `pod.yaml` and we will try to deploy it:
