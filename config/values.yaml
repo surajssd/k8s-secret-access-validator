@@ -1,10 +1,10 @@
-webhook:
-  servingKey: |
-    -----BEGIN RSA PRIVATE KEY-----
-    -----END RSA PRIVATE KEY-----
-  servingCert: |
-    -----BEGIN CERTIFICATE-----
-    -----END CERTIFICATE-----
-
 image: quay.io/surajd/k8s-secret-access-validator
 imagePullPolicy: Always
+
+# All the values mentioned here will be passed on to the sub-chart.
+automatic-webhook-certificates:
+  webhook:
+    name: validate-secrets
+    service: validate-secrets
+    secret: validate-secrets
+  psp: false

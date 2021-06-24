@@ -1,0 +1,6 @@
+dependencies:
+- name: automatic-webhook-certificates
+  repository: https://suraj.io/helm-charts
+  version: 0.1.1
+digest: sha256:4948636491776a5d563992516c47f1479573f5c9765c1b695d657791eaa8173f
+generated: "2021-06-23T10:40:29.665689902+05:30"

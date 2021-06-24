@@ -28,6 +28,9 @@ spec:
           runAsUser: 65534
           runAsGroup: 65534
         image: {{ .Values.image }}
+        args:
+        - --tls-cert-file=/etc/webhook/cert
+        - --tls-private-key-file=/etc/webhook/key
         imagePullPolicy: {{ .Values.imagePullPolicy }}
         # TODO: Add a readiness check here.
         resources:

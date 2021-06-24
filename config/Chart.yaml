@@ -3,4 +3,9 @@ name: Validate Secrets
 description: A Helm chart validating secrets if an user has access to it.
 type: application
 
-version: 0.1.0
+version: 0.1.1
+
+dependencies:
+- name: automatic-webhook-certificates
+  version: "0.1.1"
+  repository: "https://suraj.io/helm-charts"

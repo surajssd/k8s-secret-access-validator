@@ -8,18 +8,16 @@ This webhook server checks the incoming pod requests and verifies if the user cr
 
 - A Kubernetes cluster with Kubectl access to it.
 - [Helm installed](https://helm.sh/docs/intro/install/).
-- [self-signed-cert installed](https://github.com/surajssd/self-signed-cert#install).
 
 ## Install
 
 ```bash
 cd config
-certs=$(self-signed-cert --namespace validate-secrets --service-name validate-secrets)
+helm repo update
+helm dependency update
 helm install validate-secrets \
     --create-namespace \
     --namespace validate-secrets \
-    --set-file webhook.servingKey=$certs/server.key \
-    --set-file webhook.servingCert=$certs/server.crt \
     .
 ```
 
@@ -79,8 +77,6 @@ It failed with an error saying that the user cannot deploy this particular pod.
 ```bash
 helm upgrade validate-secrets \
     --namespace validate-secrets \
-    --set-file webhook.servingKey=$certs/server.key \
-    --set-file webhook.servingCert=$certs/server.crt \
     .
 ```
 

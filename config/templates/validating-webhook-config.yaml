@@ -7,7 +7,6 @@ metadata:
 webhooks:
 - name: validating.suraj.io
   clientConfig:
-    caBundle: "{{ .Values.webhook.servingCert | b64enc }}"
     service:
       name: validate-secrets
       namespace: {{ .Release.Namespace }}
